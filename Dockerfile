@@ -1,5 +1,4 @@
-ARG from_tag=3.5
-FROM informaticsmatters/neo4j:$from_tag
+FROM informaticsmatters/neo4j:latest
 
 # Copy source data in (to be used to load the DB).
 # This is the content of the data-loader directory.
