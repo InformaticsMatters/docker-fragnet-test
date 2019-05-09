@@ -9,5 +9,7 @@ services:
     image: informaticsmatters/fragnet-test:latest
     container_name: fragnet-test
     ports:
-      - "7474:7474"
-      - "7687:7687"
+    - "7474:7474"
+    - "7687:7687"
+    environment:
+      NEO4J_AUTH: neo4j/test1234
