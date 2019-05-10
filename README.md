@@ -11,6 +11,10 @@ The origin of the current set of files is: -
 
     s3://im-fragnet/build/vendor/molport/2018-11/build-4
 
+>   The data had an error and the `molport-isomol-suppliermol-edges.csv.gz`
+    and `molport-molecule-suppliermol-edges.csv.gz` files needed their
+    `END` namespace changing from `S` to `SM_MP`
+
 Consisting of: -
 
 -   1,000 molecules
