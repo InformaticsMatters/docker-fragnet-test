@@ -2,6 +2,10 @@
 A graph database with built-in data based on our neo4j container image
 used to run experimental tests with the fragnet search utility.
 
+A simple test query for this database: -
+
+    match (a:Available {cmpd_id: 'MOLPORT:020-058-278'}) return a
+
 # The data-loader files
 We rely on our [fragalysis] graph processing playbooks to generate this
 material. The files contained here should be in our S3 graph storage,
@@ -9,11 +13,7 @@ copied here for convenient building (it is a very small data set after all).
 
 The origin of the current set of files is: -
 
-    s3://im-fragnet/build/vendor/molport/2018-11/build-4
-
->   The data had an error and the `molport-isomol-suppliermol-edges.csv.gz`
-    and `molport-molecule-suppliermol-edges.csv.gz` files needed their
-    `END` namespace changing from `S` to `SM_MP`
+    s3://im-fragnet/build/vendor/molport/2018-11/build-5
 
 Consisting of: -
 
@@ -25,7 +25,17 @@ To get the files you can use the [AWS CLI]
 (assuming you have suitable AWS credentials): -
 
     $ cd data-loader
-    $ aws s3 sync s3://im-fragnet/build/vendor/molport/2018-11/build-4 .
+    $ aws s3 sync s3://im-fragnet/build/vendor/molport/2018-11/build-5 .
+
+>   The build may contain some extra files not needed by teh graph database
+    These have been excluded (not committed).
+    
+## Generating the data-loader files
+We used the `frag-processor` playbooks to run graph processing an a small
+section of the original MolPort files (`standard-3`). The parameters used
+are in this project's `frag-processor-parameters` file and run using the
+`run-graph-processor.sh` convenience script of the frag-processor utility
+to produce **build-5**.
 
 ---
 
