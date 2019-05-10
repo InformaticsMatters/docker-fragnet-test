@@ -2,9 +2,13 @@
 A graph database with built-in data based on our neo4j container image
 used to run experimental tests with the fragnet search utility.
 
-A simple test query for this database: -
+A simple test query for this database (and a screen shot of the results
+when a few neighbouring nodes have been expanded) can be seen below: -
 
     match (a:Available {cmpd_id: 'MOLPORT:020-058-278'}) return a
+    
+![MOLPORT:020-058-278](020-058-278.png "MOLPORT:020-058-278")
+
 
 # The data-loader files
 We rely on our [fragalysis] graph processing playbooks to generate this
