@@ -34,6 +34,9 @@ To get the files you can use the [AWS CLI]
 >   The build may contain some extra files not needed by teh graph database
     These have been excluded (not committed).
     
+Importantly ... once downloaded make sure the `if` test early in the script
+checks for a database at `/data/databases` (it may be using ` /neo4j/graph`).
+    
 ## Generating the data-loader files
 We used the `frag-processor` playbooks to run graph processing an a small
 section of the original MolPort files (`standard-3`). The parameters used
