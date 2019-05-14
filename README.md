@@ -39,7 +39,6 @@ To get the files you can use the [AWS CLI]
     (it may be using ` /neo4j/graph`).
 1.  The `supplier` nodes have been adjusted to contain a new `label` property.
 
-    
 ## Generating the data-loader files
 We used the `frag-processor` playbooks to run graph processing an a small
 section of the original MolPort files (`standard-3`). The parameters used
