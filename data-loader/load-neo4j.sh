@@ -25,10 +25,6 @@ then
         --relationships "molport-molecule-suppliermol-edges.csv.gz" \
         --relationships "molport-isomol-molecule-edges.csv.gz" 
 
-    echo "($ME) Back-grounding cypher-runner..."
-    ./cypher-runner.sh &
-    echo "($ME) Done."
-
     echo "($ME) $(date) Imported."
 else
     echo "($ME) $(date) Database '$IMPORT_TO' already exists."
