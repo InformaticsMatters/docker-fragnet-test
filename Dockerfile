@@ -4,6 +4,7 @@ FROM informaticsmatters/neo4j:latest
 # This is the content of the data-loader directory.
 COPY data-loader/ /data-loader/
 RUN chmod 755 /data-loader/load-neo4j.sh
+RUN chmod 755 /data-loader/cypher-runner.sh
 
 ENV NEO4J_dbms_directories_data /data
 ENV IMPORT_DIRECTORY /data-loader
