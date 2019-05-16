@@ -1,0 +1,3 @@
+CREATE INDEX ON :F2(smiles);
+CREATE INDEX ON :VENDOR(cmpd_id);
+CALL apoc.warmup.run(true, true, true);

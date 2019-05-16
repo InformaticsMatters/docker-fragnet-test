@@ -24,11 +24,6 @@ if [ ! -d /data/databases/$IMPORT_TO.db ]; then
         --relationships "molport-molecule-suppliermol-edges.csv.gz" \
         --relationships "molport-isomol-molecule-edges.csv.gz" 
 
-    #echo "($ME) Indexing..."
-    #cd /var/lib/neo4j
-    #$IMPORT_DIRECTORY/index_neo4j.sh
-    #echo "($ME) Done."
-
     echo "($ME) $(date) Imported."
 else
     echo "($ME) $(date) Database '$IMPORT_TO' already exists."

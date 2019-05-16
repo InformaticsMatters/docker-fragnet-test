@@ -5,6 +5,9 @@ FROM informaticsmatters/neo4j:3.5
 COPY data-loader/ /data-loader/
 RUN chmod 755 /data-loader/load-neo4j.sh
 
+# Copy Cypher-runner script...
+COPY cypher-runner /cypher-runner/
+
 ENV NEO4J_dbms_directories_data /data
 ENV IMPORT_DIRECTORY /data-loader
 ENV IMPORT_TO graph
