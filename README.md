@@ -62,9 +62,10 @@ for you (if you provide it with a suitable tag). To publish the graph (which
 is expected to be running) as the image
 `informaticsmatters/fragnet-test:molport-2019-08-2` you'd run...
 
+    $ docker-compose stop
     $ ./publish.sh molport-2019-08-2
 
->   The utility checks that the fragnet-test image is running and then
+>   The utility checks that the fragnet-test container exists and then
     _commits_ and _pushes_ it with your chosen tag.
 
 ---

@@ -19,14 +19,14 @@ fi
 
 # How many fragnet test containers do we have?
 # For this to work we assume there's only one test container
-CONTAINER_COUNT=$(docker ps | grep -c '/fragnet-test:')
+CONTAINER_COUNT=$(docker ps -a | grep -c '/fragnet-test:')
 if [ "$CONTAINER_COUNT" -ne 1 ]; then
   echo "Couldn't find a running 'fragnet-test' container. Is it running?"
   exit 1
 fi
 
-CONTAINER_ID=$(docker ps | grep fragnet-test | tr -s ' ' | cut -d' ' -f1)
-CONTAINER_IMAGE=$(docker ps | grep fragnet-test | tr -s ' ' | cut -d' ' -f2 | cut -d: -f 1)
+CONTAINER_ID=$(docker ps -a | grep fragnet-test | tr -s ' ' | cut -d' ' -f1)
+CONTAINER_IMAGE=$(docker ps -a | grep fragnet-test | tr -s ' ' | cut -d' ' -f2 | cut -d: -f 1)
 if [ -z "$CONTAINER_ID" ]; then
   echo "Couldn't get the 'fragnet-test' container ID. Is it running?"
   exit 1
