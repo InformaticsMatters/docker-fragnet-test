@@ -5,10 +5,9 @@ used to run experimental tests with the fragnet search utility.
 A simple test query for this database (and a screen shot of the results
 when a few neighbouring nodes have been expanded) can be seen below: -
 
-    match (a:Available {cmpd_id: 'MOLPORT:020-058-278'}) return a
+    match (a:Available {cmpd_id: 'MOLPORT:028-736-080'}) return a
     
-![MOLPORT:020-058-278](020-058-278.png "MOLPORT:020-058-278")
-
+![MOLPORT:028-736-080](028-736-080.png "MOLPORT:028-736-080")
 
 # The data-loader files
 We rely on our [fragalysis] graph processing playbooks to generate this
@@ -17,19 +16,19 @@ copied here for convenient building (it is a very small data set after all).
 
 The origin of the current set of files is: -
 
-    s3://im-fragnet/build/vendor/molport/2018-11/build-5
+    s3://im-fragnet/build/vendor/molport/2019-08/build-1
 
 Consisting of: -
 
--   1,000 molecules
--   Minimum HAC of 12
--   Maximum HAC of 23
+-   3,787 molecules
+-   process_max_hac: 36
+-   process_max_frag: 12
  
 To get the files you can use the [AWS CLI]
 (assuming you have suitable AWS credentials): -
 
     $ cd data-loader
-    $ aws s3 sync s3://im-fragnet/build/vendor/molport/2018-11/build-5 .
+    $ aws s3 sync s3://im-fragnet/build/vendor/molport/2019-08/build-1 .
 
 >   The build may contain some extra files not needed by teh graph database
     These have been excluded (not committed).
@@ -41,10 +40,10 @@ To get the files you can use the [AWS CLI]
 
 ## Generating the data-loader files
 We used the `frag-processor` playbooks to run graph processing an a small
-section of the original MolPort files (`standard-3`). The parameters used
+section of the original MolPort files . The parameters used
 are in this project's `frag-processor-parameters` file and run using the
 `run-graph-processor.sh` convenience script of the frag-processor utility
-to produce **build-5**.
+to produce **build-1**.
 
 ---
 
