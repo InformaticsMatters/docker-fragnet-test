@@ -4,7 +4,6 @@ ME=load-neo4j.sh
 
 echo "($ME) $(date) Starting (from $IMPORT_DIRECTORY)..."
 echo "($ME) $(date) Database root is $NEO4J_dbms_directories_data"
-echo "($ME) $(date) Importing to $IMPORT_TO"
 
 # If the destination database exists
 # then do nothing...
