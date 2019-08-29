@@ -3,6 +3,7 @@
 ME=load-neo4j.sh
 
 echo "($ME) $(date) Starting (from $IMPORT_DIRECTORY)..."
+echo "($ME) $(date) Importing to database $IMPORT_TO"
 echo "($ME) $(date) Database root is $NEO4J_dbms_directories_data"
 
 # If the destination database exists
@@ -16,10 +17,10 @@ then
     /var/lib/neo4j/bin/neo4j-admin import \
         --database $IMPORT_TO.db \
         --ignore-missing-nodes \
-        --nodes "nodes-header.csv,molport-augmented-nodes.csv.gz" \
         --nodes "molport-suppliermol-nodes.csv.gz" \
         --nodes "molport-supplier-nodes.csv.gz" \
         --nodes "molport-isomol-nodes.csv.gz" \
+        --nodes "nodes-header.csv,molport-augmented-nodes.csv.gz" \
         --relationships "edges-header.csv,edges.csv.gz" \
         --relationships "molport-suppliermol-supplier-edges.csv.gz" \
         --relationships "molport-isomol-suppliermol-edges.csv.gz" \

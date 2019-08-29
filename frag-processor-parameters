@@ -41,7 +41,7 @@ process_max_frag: 12
 # The fragalysis code to use.
 # The version must exist as a GitHub tag and as a tag on an
 # exiting docker image.
-fragalysis_version: 0.4.3
+fragalysis_version: 0.4.4
 
 # Misc parameters
 #

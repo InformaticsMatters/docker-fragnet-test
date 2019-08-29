@@ -6,7 +6,6 @@ COPY data-loader/ /data-loader/
 RUN chmod 755 /data-loader/load-neo4j.sh
 
 # Copy cypher-runner directory content
-# (basically just our cypher script)...
 COPY cypher-script /cypher-script/
 
 ENV NEO4J_dbms_directories_data /data
