@@ -37,8 +37,8 @@ is file in the graph cluster's `~/play` directory.
 To get the files you can use the [AWS CLI]
 (assuming you have suitable AWS credentials): -
 
-    $ BUILD=vendor/molport/2019-08/build-2
-    $ aws s3 sync s3://im-fragnet/build/"$BUILD" data-loader
+    $ BUILD=build/vendor/molport/2019-08/build-2
+    $ aws s3 sync s3://im-fragnet/"$BUILD" data-loader
 
 The downloaded files may contain some extra files not needed by the graph
 database. These have been excluded (not committed) so you wil need to do
@@ -57,7 +57,7 @@ The graph database may take a few minutes to build indexes etc. Once the graph
 is stable you could push it to Docker and then re-use that published image
 if you need faster start-up times.
 
-`deploy.sh` will conveniently do the publishing of a **running container**
+`pubslish.sh` will conveniently do the publishing of a **running container**
 for you (if you provide it with a suitable tag). To publish the graph (which
 is expected to be running) as the image
 `informaticsmatters/fragnet-test:molport-2019-08-2` you'd run...
