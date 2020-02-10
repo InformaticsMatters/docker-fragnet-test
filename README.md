@@ -68,6 +68,12 @@ is expected to be running) as the image
 >   The utility checks that the fragnet-test container exists and then
     _commits_ and _pushes_ it with your chosen tag.
 
+Then, to **pull** and **run** the published container from another workstation,
+you simply have to run the following alternative compose commands:
+
+    $ IMAGE_TAG=molport-2019-08-2 docker-compose pull
+    $ IMAGE_TAG=molport-2019-08-2 docker-compose up
+
 ---
 
 [aws cli]: https://pypi.org/project/awscli/
