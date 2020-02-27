@@ -1,0 +1,20 @@
+FROM informaticsmatters/neo4j:3.5
+
+# Copy pre-compiled graph data in
+# This is the stuff in the data directory
+# that will have been written as the initial container
+# was launched and then stopped (i.e. after a docker-compose up)
+COPY data/graph.db /data/databases/graph.db/
+
+ENV NEO4J_dbms_directories_data /data
+ENV IMPORT_DIRECTORY /data-loader
+ENV EXTENSION_SCRIPT ""
+
+# Prevent any cypher-script.once from running.
+# This was done in the first container.
+WORKDIR $IMPORT_DIRECTORY
+RUN touch cypher-runner.executed
+
+# We must always leave the WORKDIR
+# to that expected by neo4j...
+WORKDIR /var/lib/neo4j

@@ -50,30 +50,48 @@ the same if you install a new file-set...
          data-loader/*.txt \
          data-loader/*.html \
          data-loader/rejected* \
-         data-loader/excluded*
+         data-loader/excluded* \
+         data-loader/*.executed \
+         data-loader/*.report \
+    $ rm -rf data/*
 
 ## Publishing a compiled graph
-The graph database may take a few minutes to build indexes etc. Once the graph
-is stable you could push it to Docker and then re-use that published image
-if you need faster start-up times.
+The graph database may take a few minutes to build indexes etc. To speed
+things up then you need to capture and publish a pre-built graph. To do
+this you will need to run a two Docker build steps - one to start a graph
+service and compile the data and the second to build an image from this
+compiled data.
 
-`pubslish.sh` will conveniently do the publishing of a **running container**
-for you (if you provide it with a suitable tag). To publish the graph (which
-is expected to be running) as the image
-`informaticsmatters/fragnet-test:molport-2019-08-2` you'd run...
+Follow the steps above to get your chosen data into the data-loader directory
+and then run: -
 
-    $ docker-compose stop
-    $ ./publish.sh molport-2019-08-2
+    docker-compose build
+    docker-compose up
 
->   The utility checks that the fragnet-test container exists and then
-    _commits_ and _pushes_ it with your chosen tag.
+Stop (ctrl-c) the running container after the database has compiled and the
+cypher scripts have executed, i.e. after you see: -
 
-Then, to **pull** and **run** the published container from another workstation,
-you simply have to run the following alternative compose commands:
+    [...] Remote interface available
 
-    $ IMAGE_TAG=molport-2019-08-2 docker-compose pull
-    $ IMAGE_TAG=molport-2019-08-2 docker-compose up
+and...
 
+    [...] Touching /data-loader/cypher-runner.executed...
+    [...] Finished.
+
+With the container stopped the compiled graph data will be in
+the data directory of this project. Build the second container
+with: -
+
+    IMAGE_TAG=molport-2019-08-2 docker-compose -f docker-compose-two.yml build
+
+You can start the new pre-compiled image with: -
+
+    IMAGE_TAG=molport-2019-08-2 docker-compose -f docker-compose-two.yml up
+
+or push it to docker hub: -
+
+    IMAGE_TAG=molport-2019-08-2 docker-compose push 
+ 
 ---
 
 [aws cli]: https://pypi.org/project/awscli/
