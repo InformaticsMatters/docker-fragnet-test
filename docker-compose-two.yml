@@ -5,13 +5,11 @@ services:
   graph:
     build:
       context: .
-      dockerfile: Dockerfile
-    image: informaticsmatters/fragnet-test:latest
+      dockerfile: Dockerfile-two
+    image: informaticsmatters/fragnet-test:${IMAGE_TAG:-3.5}
     container_name: fragnet-test
     ports:
     - "7474:7474"
     - "7687:7687"
     environment:
       NEO4J_AUTH: neo4j/test123
-    volumes:
-    - ./data:/data/databases
