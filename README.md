@@ -65,6 +65,8 @@ compiled data.
 Follow the steps above to get your chosen data into the data-loader directory
 and then run: -
 
+    rm -rf data
+    docker-compose rm graph
     docker-compose build
     docker-compose up
 
@@ -82,6 +84,8 @@ With the container stopped the compiled graph data will be in
 the data directory of this project. Build the second container
 with: -
 
+    rm data/databases/store_lock
+    docker rm fragnet-test-2
     IMAGE_TAG=molport-2019-08-2 docker-compose -f docker-compose-two.yml build
 
 You can start the new pre-compiled image with: -

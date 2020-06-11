@@ -2,12 +2,12 @@ version: '3.0'
 
 services:
 
-  graph:
+  graph-2:
     build:
       context: .
       dockerfile: Dockerfile-two
     image: informaticsmatters/fragnet-test:${IMAGE_TAG:-3.5}
-    container_name: fragnet-test
+    container_name: fragnet-test-2
     ports:
     - "7474:7474"
     - "7687:7687"

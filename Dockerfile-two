@@ -4,7 +4,7 @@ FROM informaticsmatters/neo4j:3.5
 # This is the stuff in the data directory
 # that will have been written as the initial container
 # was launched and then stopped (i.e. after a docker-compose up)
-COPY data/graph.db /data/databases/graph.db/
+COPY data /data/
 
 ENV NEO4J_dbms_directories_data /data
 ENV IMPORT_DIRECTORY /data-loader
