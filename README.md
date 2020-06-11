@@ -73,7 +73,7 @@ and then run: -
 Stop (ctrl-c) the running container after the database has compiled and the
 cypher scripts have executed, i.e. after you see: -
 
-    [...] Remote interface available
+    [...] Remote interface available at http://localhost:7474/
 
 and...
 
@@ -85,7 +85,7 @@ the data directory of this project. Build the second container
 with: -
 
     rm data/databases/store_lock
-    docker rm fragnet-test-2
+    docker-compose -f docker-compose-two.yml rm graph-2
     IMAGE_TAG=molport-2019-08-2 docker-compose -f docker-compose-two.yml build
 
 You can start the new pre-compiled image with: -
