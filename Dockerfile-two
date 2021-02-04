@@ -1,4 +1,4 @@
-FROM informaticsmatters/neo4j:3.5
+FROM informaticsmatters/neo4j:3.5.25
 
 # Copy pre-compiled graph data in
 # This is the stuff in the data directory

@@ -1,59 +1,66 @@
-# A test database container image for fragnet-search
-A graph database with built-in data based on our neo4j container image
-used to run experimental tests with the fragnet search utility.
+# Create a custom graph database for fragnet-search
 
-    $ docker-compose build
-    $ docker-compose up
-    
+This repository contains the commands necessary to create a Neo4j graph database with built-in data based on our 
+neo4j container image. It can be used to run experimental tests with the fragnet search utility or potentially 
+pulled into the fragalysis stack as a test graph database.
+   
+## The data-loader files
+We rely on our [fragmentor] graph processing playbooks to generate this source information.
+The files contained here should be taken from the output of these playbooks.
+Informatics Matters have libraries that can be used directly available on S3, but beware that these/graphs 
+generated from these source files can be large. 
+
+Individual vendor libraries are stored in S3 under their <vendor><version> or <vendor><library><version>: -
+e.g.
+
+    s3://im-fragnet/extract/molport/2020-12/
+    s3://im-fragnet/extract/xchem/dsip/v1/
+
+Combinations of libraries are stored under a suitable name in the extract/combination folder. 
+
+# Sample Dataset
+
+We have already generated a sample test database with vectors in the following location: 
+
+    s3://im-fragnet/extract/combination/xchem_combi_sample_2021_02/
+
+This dataset consists of a combination of the xchem libraries and a sample of 500000 chemspace vendor molecules. It has:
+1796195 nodes and
+6532060 edges
+
 A simple test query for this database (and a screen shot of the results
 when a few neighbouring nodes have been expanded) can be seen below: -
 
-    match (a:Available {cmpd_id: 'MOLPORT:028-736-080'}) return a
+    match (a:Available {cmpd_id: 'XCHEM:Z952656810'}) return a
     
-![MOLPORT:028-736-080](028-736-080.png "MOLPORT:028-736-080")
+![XCHEM:Z952656810](screenshot-from-neo4j.png "XCHEM:Z952656810")
 
-## The data-loader files
-We rely on our [fragalysis] graph processing playbooks to generate this
-material. The files contained here should be in our S3 graph storage,
-copied here for convenient building.
-
-The origin of the current set of files is: -
-
-    s3://im-fragnet/build/vendor/molport/2019-08/build-2
-
-Consisting of: -
-
--   3,787 molecules
--   process_max_hac: 36
--   process_max_frag: 12
- 
-## Generating the data-loader files
-We used the graph processor's Cylc `workflow` to run graph processing an a
-small section of the original MolPort files. The parameters used
-are in this project's `frag-processor-parameters` file and are run by placing
-is file in the graph cluster's `~/play` directory.
+This database is available as a docker image from Dockerhub at: 
+informaticsmatters/fragnet-test:3.5.25-xchem-combi-sample-2021-02
+It's a download of around 3GB.
 
 ## Getting the data-loader files
 To get the files you can use the [AWS CLI]
 (assuming you have suitable AWS credentials): -
 
-    $ BUILD=build/vendor/molport/2019-08/build-2
-    $ aws s3 sync s3://im-fragnet/"$BUILD" data-loader
+    $ COMBI=extract/combination/xchem_combi_sample_2021_02
+    $ aws s3 sync s3://im-fragnet/"$COMBI" data-loader
 
-The downloaded files may contain some extra files not needed by the graph
-database. These have been excluded (not committed) so you wil need to do
-the same if you install a new file-set...
-
-    $ rm data-loader/nodes.csv.gz \
-         data-loader/done \
-         data-loader/*.prov \
-         data-loader/*.txt \
-         data-loader/*.html \
-         data-loader/rejected* \
-         data-loader/excluded* \
-         data-loader/*.executed \
-         data-loader/*.report \
-    $ rm -rf data/*
+The downloaded fileset should contain the following files:
+```
+load-neo4j.sh 
+inchi-nodes.csv.gz,                 header-inchi-nodes.csv 
+isomol-molecule-edges.csv.gz,       header-isomol-molecule-edges.csv 
+edges.csv.gz,                       header-edges.csv 
+isomol-nodes.csv.gz,                header-isomol-nodes.csv 
+molecule-inchi-edges.csv.gz,        header-molecule-inchi-edges.csv 
+isomol-suppliermol-edges.csv.gz,    header-isomol-suppliermol-edges.csv 
+molecule-suppliermol-edges.csv.gz,  header-molecule-suppliermol-edges.csv 
+nodes.csv.gz,                       header-nodes.csv 
+supplier-nodes.csv.gz,              header-suppliermol-nodes.csv 
+suppliermol-supplier-edges.csv.gz,  header-suppliermol-supplier-edges.csv 
+suppliermol-nodes.csv.gz,           header-supplier-nodes.csv 
+```
 
 ## Publishing a compiled graph
 The graph database may take a few minutes to build indexes etc. To speed
@@ -86,17 +93,17 @@ with: -
 
     (sudo) rm data/databases/store_lock
     docker-compose -f docker-compose-two.yml rm graph-2
-    IMAGE_TAG=3.5-xchem-v1-extract docker-compose -f docker-compose-two.yml build
+    IMAGE_TAG=3.5.25-xchem-combi-sample-2021-02 docker-compose -f docker-compose-two.yml build
 
 You can start the new pre-compiled image with: -
 
-    IMAGE_TAG=3.5-xchem-v1-extract docker-compose -f docker-compose-two.yml up
+    IMAGE_TAG=3.5.25-xchem-combi-sample-2021-02 docker-compose -f docker-compose-two.yml up
 
 or push it to docker hub: -
 
-    IMAGE_TAG=3.5-xchem-v1-extract docker-compose -f docker-compose-two.yml push
- 
+    IMAGE_TAG=3.5.25-xchem-combi-sample-2021-02 docker-compose -f docker-compose-two.yml push
+
 ---
 
 [aws cli]: https://pypi.org/project/awscli/
-[fragalysis]: https://github.com/InformaticsMatters/fragalysis/tree/1-fragnet
+[fragalysis]: https://github.com/InformaticsMatters/fragmentor/
