@@ -42,19 +42,14 @@ The small sample dataset can be found at: -
 
     s3://im-fragnet/extract/combination/xchem_combi_sample_2021_02/
 
-This dataset consists of a combination of the xchem libraries and a sample of
-500,000 chemspace vendor molecules. It has:
+This dataset consists of a combination of data from the Diamond Light Source
+[XChem] fragment screening libraries and a sample of 500,000 [ChemSpace]
+molecules. The graph has...
 
 -   1796195 nodes
 -   6532060 relationships (edges)
 
-These values can be confirmed once the graph is running
-with the following cypher commands: -
-
-    match (n:F2) return count (n);
-    match (n:F2)-[r:FRAG]->() return count (r);
-
-The sample graph database contains the following **Node Labels**,
+The resultant graph contains the following **Node Labels**,
 **Relationship Types** and **Property keys**: -
   
 ![Graph](screenshot-from-neo4j.png "Graph")
@@ -63,7 +58,7 @@ We have also published this database to Docker Hub:
 
     informaticsmatters/fragnet-test:3.5.25-xchem-combi-sample-2021-02
 
-The image size is about 4GB.
+The image size is about 3-4GiB.
 
 ## Building your own image
 The repository contains no data so let's explain how to get our sample dataset
@@ -146,8 +141,8 @@ Again, the graph is ready to use when you see the following: -
 
     fragnet-test-2 | (cypher-runner.sh) [...] Finished.
 
-You can now also push the 2nd graph to docker hub, but remember that
-this image may be substantial (about 3.3GiB): -
+You can now also push the 2nd graph to docker hub. Remember that
+this image may be a substantial size, depending on the graph you've built.
 
     $ IMAGE_TAG=3.5.25-xchem-combi-sample-2021-02 \
         docker-compose -f docker-compose-two.yml push
@@ -155,5 +150,7 @@ this image may be substantial (about 3.3GiB): -
 ---
 
 [aws cli]: https://pypi.org/project/awscli/
+[xchem]: https://www.diamond.ac.uk/industry/Techniques-Available/Integrated-Structural-Biology/Fragment-Screening---XChem/Fragment-Libraries.html
+[chemspace]: https://chem-space.com
 [customised neo4j]: https://github.com/InformaticsMatters/docker-neo4j
 [fragmentor]: https://github.com/InformaticsMatters/fragmentor
