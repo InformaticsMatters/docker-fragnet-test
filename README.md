@@ -156,4 +156,4 @@ this image may be substantial (about 3.3GiB): -
 
 [aws cli]: https://pypi.org/project/awscli/
 [customised neo4j]: https://github.com/InformaticsMatters/docker-neo4j
-[fragalysis]: https://github.com/InformaticsMatters/fragmentor/
+[fragmentor]: https://github.com/InformaticsMatters/fragmentor
