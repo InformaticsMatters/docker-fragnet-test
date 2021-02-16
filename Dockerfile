@@ -1,10 +1,12 @@
-FROM informaticsmatters/neo4j:latest
+FROM informaticsmatters/neo4j:3.5.25
 
 # Copy source data in (to be used to load the DB).
-# This is the content of the data-loader directory.
+# This is the content of the data-loader directory.
 COPY data-loader/ /data-loader/
 RUN chmod 755 /data-loader/load-neo4j.sh
-RUN chmod 755 /data-loader/cypher-runner.sh
+
+# Copy cypher-runner directory content
+COPY cypher-script /cypher-script/
 
 ENV NEO4J_dbms_directories_data /data
 ENV IMPORT_DIRECTORY /data-loader

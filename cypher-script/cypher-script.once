@@ -1,0 +1,4 @@
+CREATE INDEX ON :F2(smiles);
+CREATE INDEX ON :VENDOR(cmpd_id);
+CALL apoc.periodic.iterate('MATCH (m:Mol) RETURN m', 'SET m.neighbours = 0', {batchSize:10000, parallel:true});
+CALL apoc.periodic.iterate('MATCH (m:Mol) RETURN m', 'MATCH (m)-[f:FRAG]-() WITH m, count(f) AS c SET m.neighbours = c', {batchSize:10000, parallel:true});
