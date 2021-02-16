@@ -1,7 +1,5 @@
 **/.DS_Store
-.idea/
+.idea
 
 data
-data-loader/cypher-runner.executed
-data-loader/import.report
-/tmp/
+data-loader
