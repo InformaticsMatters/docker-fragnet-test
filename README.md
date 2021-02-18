@@ -54,96 +54,40 @@ The image is pushed to DockerHub as
 The image size is about 3-4GiB.
 
 ## Building your own image
-The repository contains no data so let's explain how to get our sample dataset
-and launch a graph using it.
+Specific instructions are provided in each branch in the `BUILD.md` file.
 
-We use building our `informaticsmatters/fragnet-test:3.5.25-xchem-combi-sample-2021-02`
-container images as an example. That data contains the XChem DSI Poised library
-(768 molecules) plus 500,000 molecules from ChemSpace.
-For different data change the instructions accordingly.
+## General process
 
-### Getting the sample dataset
-To get the files from our bucket you can use the [AWS CLI]
-(assuming you have suitable AWS credentials): -
+Input files containing the node and edge Fragment Network data in CSV format 
+are placed in the `data-loader` directory.
+This directory is mounted into our `informaticsmatters/fragnet-test:latest` container
+image and load scripts do a bulk import into the Neo4j database and set the password
+to the required value. See [https://github.com/InformaticsMatters/docker-neo4j/tree/master]()
+for more details.
 
-    $ DATA_PATH=extract/combination/xchem_combi_sample_2021_02
-    $ aws s3 sync s3://im-fragnet/"$DATA_PATH" data-loader
-
->   The input files go into the directory `data-loader`. This is not committed
-    to Git and it (and the compiled data tha we'll build) is excluded by the
-    project's `.gitignore`.
-
-The above fileset (about 360MB) should contain 23 files, consisting
-of a shell-script, 11 data files and 11 associated header files: -
-
-    $ ls -1 data-loader | wc -l
-    23
-
-### Starting the graph container
-With input data in place we just need to start the graph.
-
-The graph database may take a few minutes to build indexes etc,
-which will take a minute or two depending on the dataset and your workstation.
-
->   Large, complex datasets can take hours to compile. The sample dataset
-    provided here should be ready after 3 or 4 minutes and consume about
-    3-4GiB of disk space.
-
-Ensure that you have no pre-existing graph by deleting the data directory it
-creates (you may have to use sudo) and any pre-existing graph container: -
-
-    $ rm -rf data
-    $ docker rm fragnet-test
-
-Now, build the custom graph image and start it...
+Those operations are performed by running
 
     $ docker-compose build
     $ docker-compose up
 
-The graph is ready to be used after you see the following on stdout: -
+The database files that are created are stored in a volume that is mounted from 
+`data` so once the import is complete and the container stopped that directory 
+contains a set of fully viable database files.
 
-    fragnet-test | (cypher-runner.sh) [...] Finished.
+Once that is complete a new container can be created that
+copies the contents of the `data` directory to where Neo4j expects its database
+files. That is done by running:
 
-You can use the graph now - it will be available at `http://localhost:7474`
-with the username `neo4j` and password `test123`.
+    $ docker-compose -f docker-compose-two.yml build
 
-You can also stop (ctrl-c) and now quickly restart the graph
-(`docker-compose up`), as the graph has been compiled into the local `data`
-directory.
+The `IMAGE_TAG` environment variable specifies the tag name of the image that is
+created. That image can be used locally or pushed to an image repository such as
+DockerHub. The resulting image contains a fully initialised database, but does not
+contain the CSV files that were imported, so it is relatively small and starts up
+very quickly.
 
-### Publishing the graph
-If you need to publish the graph (to Docker Hub for example), for others to use,
-you will need to build a new container image using the pre-compiled data
-from the first.
-
-the published image does not contain the original files, it just contains
-the compiled database.
-
-To build the container for publishing first stop (ctrl-c) the first graph.
-
->   The compiled graph files will be in the `data` directory of this project.
-
-Now build the second container (providing a custom image tag) with: -
-
-    $ rm data/databases/store_lock
-    $ docker-compose -f docker-compose-two.yml rm graph-2
-    $ IMAGE_TAG=3.5.25-xchem-combi-sample-2021-02 \
-        docker-compose -f docker-compose-two.yml build
-
-You can now start the new pre-compiled image with: -
-
-    $ IMAGE_TAG=3.5.25-xchem-combi-sample-2021-02 \
-        docker-compose -f docker-compose-two.yml up
-
-Again, the graph is ready to use when you see the following: -
-
-    fragnet-test-2 | (cypher-runner.sh) [...] Finished.
-
-You can now also push the 2nd graph to docker hub. Remember that
-this image may be a substantial size, depending on the graph you've built.
-
-    $ IMAGE_TAG=3.5.25-xchem-combi-sample-2021-02 \
-        docker-compose -f docker-compose-two.yml push
+Specific instructions are found on the branches in the `BUILD.md` file.'
+See, in particular the `dsip` and `xchem_combi_sample_2021_02` branches.
 
 ## Running a prebuilt container image
 If all you want to do is run one of the prebuilt images do it like this:
