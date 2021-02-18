@@ -1,6 +1,8 @@
-# A custom graph database for fragnet-search
+# A custom Fragment Network graph database
 This repository contains the commands necessary to create a Neo4j graph
-database based on our [customised neo4j] container image.
+database based on our [customised neo4j] container image that contains a
+Fragment Network graph database. For information on the Fragment Network
+look [here](https://fragnet.informaticsmatters.com/).
 
 You will need to supply your own data - don't worry we provide
 a recipe here based on some sample data we can provide - or you can ask
@@ -13,20 +15,24 @@ published to a container registry and then pulled elsewhere for others to use.
     (at least 4 cores, 16Gi RAM) and at least 5GiB of free disk-space.
 
 ## The data files
-This repository contains no actual graph data. The graph you want
-is a choice you have to make.
+This repository does not generally contain the actual graph data as the files are 
+typically huge. The data you use is a choice you have to make.
 
-Our _sample data_ is held pn AWS S3.
+Our _sample data_ is held on AWS S3. You will need S3 credentials for access.
 
 >   We rely on our [fragmentor] graph processing playbooks to generate input
     data. The process produces nodes and relationships and corresponding
     headers as well as a shell-script that is understood by our custom graph
     image that bulk-loads the files. Informatics Matters have libraries that
     can be used directly available on S3, but beware that these/graphs
-    generated from these source files can be large.
+    generated from these source files can be very large.
 
-## A sample dataset
-We have already generated a sample test database.
+The one exception is that on the `dsip` branch you will find a small sample dataset 
+that you can use to build a small database.
+
+Other branches do not contain any data, but instead provide instructions for
+obtaining it and for building the container images. Look at the `BUILD.md` file
+on those branches for specific instructions.
 
 Individual libraries are stored in our S3 bucket using a path
 reflecting their `<vendor><version>` or `<vendor><library><version>`
@@ -36,33 +42,25 @@ name. Typically: -
     s3://im-fragnet/extract/xchem/dsip/v1/
 
 Combinations of libraries are stored under a suitable name in the bucket's
-`extract/combination` folder. 
+`extract/combination` folder.
 
 The small sample dataset can be found at: -
 
     s3://im-fragnet/extract/combination/xchem_combi_sample_2021_02/
 
-This dataset consists of a combination of data from the Diamond Light Source
-[XChem] fragment screening libraries and a sample of 500,000 [ChemSpace]
-molecules. The graph has...
-
--   1796195 nodes
--   6532060 relationships (edges)
-
-The resultant graph contains the following **Node Labels**,
-**Relationship Types** and **Property keys**: -
-  
-![Graph](screenshot-from-neo4j.png "Graph")
-
-We have also published this database to Docker Hub:
-
-    informaticsmatters/fragnet-test:3.5.25-xchem-combi-sample-2021-02
-
+Look at the `xchem_combi_sample_2021_02` branch for instructions on building this.
+The image is pushed to DockerHub as 
+`informaticsmatters/fragnet-test:3.5.25-xchem-combi-sample-2021-02`.
 The image size is about 3-4GiB.
 
 ## Building your own image
 The repository contains no data so let's explain how to get our sample dataset
 and launch a graph using it.
+
+We use building our `informaticsmatters/fragnet-test:3.5.25-xchem-combi-sample-2021-02`
+container images as an example. That data contains the XChem DSI Poised library
+(768 molecules) plus 500,000 molecules from ChemSpace.
+For different data change the instructions accordingly.
 
 ### Getting the sample dataset
 To get the files from our bucket you can use the [AWS CLI]
@@ -146,6 +144,14 @@ this image may be a substantial size, depending on the graph you've built.
 
     $ IMAGE_TAG=3.5.25-xchem-combi-sample-2021-02 \
         docker-compose -f docker-compose-two.yml push
+
+## Running a prebuilt container image
+If all you want to do is run one of the prebuilt images do it like this:
+
+    $ docker run -it -p 7474:7474 -p 7687:7687 -e GRAPH_PASSWORD=test123 \
+        informaticsmatters/fragnet-test:3.5.25-xchem-combi-sample-2021-02
+
+Then access it at [http://localhost:7474]()
 
 ---
 
