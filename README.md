@@ -74,6 +74,10 @@ The database files that are created are stored in a volume that is mounted from
 `data` so once the import is complete and the container stopped that directory 
 contains a set of fully viable database files.
 
+You can use this container now - it is a viable graph hosting your data.
+Or, you can continue to building an image with the pre-compiled
+data in it...
+
 Once that is complete a new container can be created that
 copies the contents of the `data` directory to where Neo4j expects its database
 files. That is done by running:
@@ -92,7 +96,10 @@ See, in particular the `dsip` and `xchem_combi_sample_2021_02` branches.
 ## Running a prebuilt container image
 If all you want to do is run one of the prebuilt images do it like this:
 
-    $ docker run -it -p 7474:7474 -p 7687:7687 -e GRAPH_PASSWORD=test123 \
+    $ docker run --rm -it \
+        -p 7474:7474 \
+        -p 7687:7687 \
+        -e GRAPH_PASSWORD=test123 \
         informaticsmatters/fragnet-test:3.5.25-xchem-combi-sample-2021-02
 
 Then access it at [http://localhost:7474]()
