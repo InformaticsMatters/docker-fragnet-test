@@ -1,4 +1,4 @@
-FROM informaticsmatters/neo4j:3.5.25
+FROM informaticsmatters/neo4j:4.4.2
 
 # Copy source data in (to be used to load the DB).
 # This is the content of the data-loader directory.

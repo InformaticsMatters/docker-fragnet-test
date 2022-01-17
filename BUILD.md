@@ -8,14 +8,14 @@ The [README.md]() contains more general information.
 
 ## About the data
 
-This is a small sample dataset of 768 molecules from the XChem DSI Poised library.
+This is a small sample dataset of 1044 molecules from the various versions of the XChem DSI Poised library.
 
-The graph has...
+The core fragment network part of the graph has...
 
--   10972 nodes
--   21086 relationships (edges)
+-   6182 nodes
+-   17720 relationships (edges)
 
-The image size is about 355MB.
+The image size is about 640MB.
 
 We have also published this database to Docker Hub:
 

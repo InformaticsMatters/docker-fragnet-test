@@ -27,7 +27,7 @@ image that bulk-loads the files. Informatics Matters have libraries that
 can be used directly available on S3, but beware that these/graphs
 generated from these source files can be very large.
 
-The one exception is that on the `dsip` branch you will find a small sample dataset
+The exceptions are those on the `dsip` branches where you will find a small sample dataset
 that you can use to build a small database.
 
 Other branches do not contain any data, but instead provide instructions for
