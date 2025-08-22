@@ -1,18 +1,14 @@
-version: '3.0'
-
+---
 services:
 
   graph:
     build:
       context: .
       dockerfile: Dockerfile
-    image: informaticsmatters/fragnet-test:dsip_v2_neo4j_442
+    image: informaticsmatters/fragnet-test:4.4.37-hash
     container_name: fragnet-test
     ports:
     - "7474:7474"
     - "7687:7687"
-    environment:
-      GRAPH_PASSWORD: test123
-      NEO4J_AUTH: neo4j/test123
     volumes:
     - ./data:/data

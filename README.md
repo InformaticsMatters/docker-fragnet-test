@@ -57,9 +57,9 @@ The image size is about 3-4GiB.
 Specific instructions are provided in each branch in the `BUILD.md` file.
 
 ## General process
-
 Input files containing the node and edge Fragment Network data in CSV format
 are placed in the `data-loader` directory.
+
 This directory is mounted into our `informaticsmatters/fragnet-test:latest` container
 image and load scripts do a bulk import into the Neo4j database and set the password
 to the required value. See [https://github.com/InformaticsMatters/docker-neo4j/tree/master]()
@@ -67,18 +67,26 @@ for more details.
 
 Those operations are performed by running
 
-    $ docker-compose build
-    $ docker-compose up
+    docker compose up --build
 
 The database files that are created are stored in a volume that is mounted from
 `data` so once the import is complete and the container stopped that directory
 contains a set of fully viable database files.
 
+You can then access the graph at http://127.0.0.1:7474/browser/ and use the
+default login and password (ne4j/neo4j) where you are forced to set a new password
+that you can use for suture sessions.
+
+With a password set you can also use `demo.py` that connects to the graph
+to print the number of nodes. It assumes you have Python and a suitable neo4j package: -
+
+    ./demo.py blob1234
+
 Once that is complete a new container can be created that
 copies the contents of the `data` directory to where Neo4j expects its database
 files. That is done by running:
 
-    $ docker-compose -f docker-compose-two.yml build
+    $ docker compose -f docker-compose-two.yml build
 
 The `IMAGE_TAG` environment variable specifies the tag name of the image that is
 created. That image can be used locally or pushed to an image repository such as
@@ -88,14 +96,6 @@ very quickly.
 
 Specific instructions are found on the branches in the `BUILD.md` file.'
 See, in particular the `dsip` and `xchem_combi_sample_2021_02` branches.
-
-## Running a prebuilt container image
-If all you want to do is run one of the prebuilt images do it like this:
-
-    $ docker run -it -p 7474:7474 -p 7687:7687 -e GRAPH_PASSWORD=test123 \
-        informaticsmatters/fragnet-test:3.5.25-xchem-combi-sample-2021-02
-
-Then access it at [http://localhost:7474]()
 
 ---
 

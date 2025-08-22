@@ -1,15 +1,12 @@
-version: '3.0'
-
+---
 services:
 
   graph-2:
     build:
       context: .
       dockerfile: Dockerfile-two
-    image: informaticsmatters/fragnet-test:${IMAGE_TAG:-4.4.2}
+    image: informaticsmatters/fragnet-test:${IMAGE_TAG:-4.4.37-hash}
     container_name: fragnet-test-2
     ports:
     - "7474:7474"
     - "7687:7687"
-    environment:
-      GRAPH_PASSWORD: test123
