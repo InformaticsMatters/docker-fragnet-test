@@ -6,7 +6,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile-two
-    image: informaticsmatters/fragnet-test:${IMAGE_TAG:-3.5.25}
+    image: informaticsmatters/fragnet-test:${IMAGE_TAG:-4.4.2}
     container_name: fragnet-test-2
     ports:
     - "7474:7474"
