@@ -77,14 +77,14 @@ You can then access the graph at http://127.0.0.1:7474/browser/ and use the
 default login and password (ne4j/neo4j) where you are forced to set a new password
 that you can use for suture sessions.
 
-With a password set you can also use `demo.py` that connects to the graph
+With a password set you can also use `demo.py` with the password to connect to the graph
 to print the number of nodes. It assumes you have Python and a suitable neo4j package: -
 
-    ./demo.py blob1234
+    ./demo.py test1234
 
-Once that is complete a new container can be created that
-copies the contents of the `data` directory to where Neo4j expects its database
-files. That is done by running:
+Once that is complete a new container can be created that uses the password you've set
+and copies the contents of the pre-compiled `data` directory to where Neo4j expects
+its database files. That is done by running: -
 
     $ docker compose -f docker-compose-two.yml build
 
